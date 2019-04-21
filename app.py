@@ -16,8 +16,8 @@ def spriteGenerator():
 @app.route('/')
 def homepage():
     size = 7
-    invaders = 30
-    imageSize = 1900
+    invaders = 5
+    imageSize = 1000
 
     if request.args.get('size') is not None:
         size = int(request.args.get('size'))
@@ -33,10 +33,10 @@ def homepage():
     The default values being used are:
     <br>
     size = 7
-    invaders = 30
-    imageSize = 1900
+    invaders = 55
+    imageSize = 1000
     <br>
-    To change the values, use it like this: /?imageSize=1000&invaders=20
+    To change the values, use it like this: /?imageSize=1900&invaders=30
     </p>
 
     <img src="/api?size={size}&invaders={invaders}&imageSize={imageSize}" />
