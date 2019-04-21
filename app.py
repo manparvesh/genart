@@ -1,19 +1,46 @@
-from datetime import datetime
-
-from flask import Flask
+from flask import Flask, request
 
 app = Flask(__name__)
 
 
+@app.route('/api', methods=['GET'])
+def spriteGenerator():
+    size = int(request.args.get('size'))
+    invaders = int(request.args.get('invaders'))
+    imageSize = int(request.args.get('imageSize'))
+
+    from spritegenerator import spriteGenerator
+    return spriteGenerator(size, invaders, imageSize)
+
+
 @app.route('/')
 def homepage():
-    the_time = datetime.now().strftime("%A, %d %b %Y %l:%M %p")
+    size = 7
+    invaders = 30
+    imageSize = 1900
+
+    if request.args.get('size') is not None:
+        size = int(request.args.get('size'))
+
+    if request.args.get('invaders') is not None:
+        invaders = int(request.args.get('invaders'))
+
+    if request.args.get('imageSize') is not None:
+        imageSize = int(request.args.get('imageSize'))
 
     return """
-    <h1>Hello heroku</h1>
-    <p>It is currently {time}.</p>
-    <img src="http://loremflickr.com/600/400" />
-    """.format(time=the_time)
+    <p>
+    The default values being used are:
+    <br>
+    size = 7
+    invaders = 30
+    imageSize = 1900
+    <br>
+    To change the values, use it like this: /?imageSize=1000&invaders=20
+    </p>
+
+    <img src="/api?size={size}&invaders={invaders}&imageSize={imageSize}" />
+    """.format(size=size, invaders=invaders, imageSize=imageSize)
 
 
 if __name__ == '__main__':
